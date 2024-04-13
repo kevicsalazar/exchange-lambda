@@ -6,9 +6,9 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.logback)
-    implementation("aws.sdk.kotlin:ses:1.0.30")
-    implementation("aws.sdk.kotlin:secretsmanager:1.0.30")
+    implementation(libs.aws.ses)
+    implementation(libs.aws.secrets)
     implementation(libs.aws.dynamodb)
+    implementation(libs.logback)
     testImplementation(kotlin("test"))
 }

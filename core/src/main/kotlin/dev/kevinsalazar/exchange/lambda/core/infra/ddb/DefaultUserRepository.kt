@@ -5,21 +5,25 @@ import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
 import aws.sdk.kotlin.services.dynamodb.model.GetItemRequest
 import aws.sdk.kotlin.services.dynamodb.model.PutItemRequest
 import dev.kevinsalazar.exchange.lambda.core.domain.entities.User
+import dev.kevinsalazar.exchange.lambda.core.domain.props.Properties
 import dev.kevinsalazar.exchange.lambda.core.domain.repository.UserRepository
 import kotlinx.coroutines.runBlocking
 
-class DefaultUserRepository : UserRepository {
+class DefaultUserRepository(
+    private val props: Properties
+) : UserRepository {
 
     override fun save(user: User) {
 
-        val itemValues = mutableMapOf<String, AttributeValue>()
-        itemValues["id"] = AttributeValue.S(user.id)
-        itemValues["name"] = AttributeValue.S(user.name)
-        itemValues["email"] = AttributeValue.S(user.email)
+        val values = mapOf<String, AttributeValue>(
+            "id" to AttributeValue.S(user.id),
+            "name" to AttributeValue.S(user.name),
+            "email" to AttributeValue.S(user.email)
+        )
 
         val request = PutItemRequest {
-            tableName = "users"
-            item = itemValues
+            tableName = props.usersTableName
+            item = values
         }
 
         ddbClient { ddb ->
@@ -29,12 +33,13 @@ class DefaultUserRepository : UserRepository {
 
     override fun find(id: String): User? {
 
-        val keyToGet = mutableMapOf<String, AttributeValue>()
-        keyToGet["id"] = AttributeValue.S(id)
+        val keyToGet = mapOf<String, AttributeValue>(
+            "id" to AttributeValue.S(id)
+        )
 
         val request = GetItemRequest {
             key = keyToGet
-            tableName = "users"
+            tableName = props.usersTableName
         }
 
         val response = ddbClient { ddb ->
@@ -48,12 +53,11 @@ class DefaultUserRepository : UserRepository {
             name = response["name"]?.asS().orEmpty(),
             email = response["email"]?.asS().orEmpty(),
         )
-
         return user
     }
 
     private fun <T> ddbClient(block: suspend (DynamoDbClient) -> T): T {
-        return DynamoDbClient { region = "us-east-1" }
+        return DynamoDbClient { region = props.region }
             .use { ddb -> runBlocking { block.invoke(ddb) } }
     }
 

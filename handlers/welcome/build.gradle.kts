@@ -18,5 +18,6 @@ dependencies {
     implementation(libs.aws.lambda.events)
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.logback)
     testImplementation(libs.kotlin.test.junit)
 }
