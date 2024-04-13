@@ -12,6 +12,7 @@ aws-lambda-events = "3.11.4"
 aws-dynamodb = "1.0.30"
 aws-ses = "1.0.30"
 aws-secrets = "1.0.30"
+cdk = "1.134.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -30,9 +31,10 @@ aws-lambda-core = { module = "com.amazonaws:aws-lambda-java-core", version.ref =
 aws-lambda-events = { module = "com.amazonaws:aws-lambda-java-events", version.ref = "aws-lambda-events" }
 aws-dynamodb = { module = "aws.sdk.kotlin:dynamodb", version.ref = "aws-dynamodb"}
 aws-ses = { module = "aws.sdk.kotlin:ses", version.ref = "aws-ses"}
-aws-secrets = { module = "aws.sdk.kotlin:secretsmanage", version.ref = "aws-secrets"}
+aws-secrets = { module = "aws.sdk.kotlin:secretsmanager", version.ref = "aws-secrets"}
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow"}
+cdk = { id = "com.amazon.cdk", version.ref = "cdk"}

@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 
 include(":handlers:welcome")
 include(":core")
+include(":cdk")
