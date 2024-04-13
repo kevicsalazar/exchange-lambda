@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 include("core")
 include("cdk")
 include("handlers:send-welcome-email")
-include("handlers:send-exchange-email")
+include("handlers:send-swap-email")
 include("handlers:save-user-info")
