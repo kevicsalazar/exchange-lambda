@@ -2,12 +2,14 @@ package cdk
 
 import software.amazon.awscdk.App
 import cdk.stacks.DynamoDBStack
-import cdk.stacks.WelcomeLambdaStack
+import cdk.stacks.SaveUserInfoLambdaStack
+import cdk.stacks.SendWelcomeEmailLambdaStack
 
 
 fun main() {
     val app = App()
     val dynamoDBStack = DynamoDBStack(app, "DynamoDBStack")
-    WelcomeLambdaStack(app, "WelcomeLambdaStack", dynamoDBStack.table)
+    SaveUserInfoLambdaStack(app, "SaveUserInfoLambdaStack", dynamoDBStack.table)
+    SendWelcomeEmailLambdaStack(app, "SendWelcomeEmailLambdaStack")
     app.synth()
 }
