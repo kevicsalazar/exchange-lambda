@@ -16,11 +16,12 @@ class SendWelcomeEmailLambdaStack(scope: Construct, id: String) : Stack(scope, i
             "SOURCE" to "kevicsalazar1994@gmail.com"
         )
         val lambdaFunction = Function.Builder.create(this, "SendWelcomeEmail")
-            .description("Function to send Welcome email")
+            .description("Function to send welcome email")
             .handler("handlers.send_welcome_email.Handler::handleRequest")
             .runtime(Runtime.JAVA_21)
             .code(Code.fromAsset("../handlers/send-welcome-email/build/libs/send-welcome-email-1.0-all.jar"))
-            .architecture(Architecture.ARM_64)
+            .architecture(Architecture.X86_64)
+            .snapStart(SnapStartConf.ON_PUBLISHED_VERSIONS)
             .memorySize(512)
             .timeout(Duration.seconds(15))
             .environment(env)
@@ -36,7 +37,7 @@ class SendWelcomeEmailLambdaStack(scope: Construct, id: String) : Stack(scope, i
     }
 
     private fun getEventSource(): IEventSource {
-        val id = "SnedWelcomeEmailSqsEventSource"
+        val id = "SendWelcomeEmailSqsEventSource"
         val arn = "arn:aws:sqs:us-east-1:891377324743:retention_send_welcome_email_on_user_registered"
         return SqsEventSource.Builder.create(Queue.fromQueueArn(this, id, arn))
             .batchSize(1)
