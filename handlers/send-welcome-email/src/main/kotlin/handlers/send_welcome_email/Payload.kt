@@ -1,4 +1,4 @@
-package lambda.handlers.welcome
+package handlers.send_welcome_email
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

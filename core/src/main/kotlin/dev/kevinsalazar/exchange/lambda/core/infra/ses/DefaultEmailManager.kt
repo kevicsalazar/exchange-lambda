@@ -6,24 +6,27 @@ import aws.sdk.kotlin.services.ses.sendTemplatedEmail
 import dev.kevinsalazar.exchange.lambda.core.domain.managers.EmailManager
 import dev.kevinsalazar.exchange.lambda.core.domain.props.Properties
 import dev.kevinsalazar.exchange.lambda.core.domain.utils.json
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 
 class DefaultEmailManager(
     private val props: Properties
 ) : EmailManager {
-    override suspend fun sendTemplatedEmail(
+    override fun sendTemplatedEmail(
         name: String,
         address: String,
         data: HashMap<String, String>
     ) {
         SesClient { region = props.region }.use { ses ->
-            ses.sendTemplatedEmail {
-                source = props.sourceEmail
-                template = name
-                destination = Destination {
-                    toAddresses = listOf(address)
+            runBlocking {
+                ses.sendTemplatedEmail {
+                    source = props.sourceEmail
+                    template = name
+                    destination = Destination {
+                        toAddresses = listOf(address)
+                    }
+                    templateData = json.encodeToString(data)
                 }
-                templateData = json.encodeToString(data)
             }
         }
     }

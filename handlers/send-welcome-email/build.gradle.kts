@@ -6,11 +6,11 @@ plugins {
 }
 
 application {
-    mainClass.set("lambda.handlers.welcome.Handler")
+    mainClass.set("handlers.send_welcome_email.Handler")
 }
 
-group = "lambda.handlers.welcome"
-version = "1.0-SNAPSHOT"
+group = "handlers.send_welcome_email"
+version = "1.0"
 
 dependencies {
     implementation(projects.core)
