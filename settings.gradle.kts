@@ -1,4 +1,4 @@
-rootProject.name = "exchange-lambda-ses"
+rootProject.name = "exchange-lambda"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -18,7 +18,6 @@ dependencyResolutionManagement {
 }
 
 include("core")
-include("cdk")
 include("handlers:send-welcome-email")
 include("handlers:send-swap-email")
 include("handlers:save-user-info")

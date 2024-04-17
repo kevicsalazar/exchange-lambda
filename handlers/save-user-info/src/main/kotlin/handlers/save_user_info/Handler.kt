@@ -20,8 +20,8 @@ class Handler : RequestHandler<SQSEvent, Unit> {
     private fun processPayload(payload: Payload) {
         val user = User(
             id = payload.userId,
-            name = payload.userName,
-            email = payload.userEmail
+            name = payload.name,
+            email = payload.email
         )
         userRepository.save(user)
     }
