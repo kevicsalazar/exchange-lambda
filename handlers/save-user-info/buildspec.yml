@@ -7,27 +7,16 @@ phases:
 
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - HOST=891377324743.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=$HOST/exchange-lambda-save-user-info
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - BUCKET=cdk-hnb659fds-assets-891377324743-us-east-1
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $HOST
 
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build --build-arg MODULE_NAME=save-user-info -t $REPOSITORY_URI -f ../../Dockerfile .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - ../../gradlew build
 
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image to Amazon ECR...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-
-artifacts:
-  files: [ ]
+      - aws s3 cp /build/libs/save-user-info-all.jar s3://$BUCKET/lambda-artifacts/
