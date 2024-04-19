@@ -5,18 +5,16 @@ phases:
     runtime-versions:
       java: corretto21
 
-  pre_build:
-    commands:
-      - BUCKET=cdk-hnb659fds-assets-891377324743-us-east-1
-      - echo Logging in to Amazon ECR...
-      - aws --version
-
   build:
     commands:
       - echo Build started on `date`
-      - ../../gradlew build
+      - ../../gradlew build --scan
 
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws s3 cp /build/libs/save-user-info-all.jar s3://$BUCKET/lambda-artifacts/
+
+artifacts:
+  files:
+    - '*-all.jar'
+  base-directory: 'build/libs'
