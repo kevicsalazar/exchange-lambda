@@ -10,7 +10,7 @@ application {
 }
 
 group = "handlers.save_user_info"
-version = "1.1"
+version = "1.0"
 
 dependencies {
     implementation(projects.core)
