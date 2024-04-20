@@ -10,7 +10,6 @@ application {
 }
 
 group = "handlers.send_welcome_email"
-version = "1.0"
 
 dependencies {
     implementation(projects.core)
