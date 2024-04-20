@@ -13,5 +13,10 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws s3 cp handlers/$MODULE_NAME/build/libs/*-all.jar s3://$BUCKET_NAME/$MODULE_NAME/
+      - JAR_FILE=$(find handlers/$MODULE_NAME/build/libs -name "*-all.jar" -type f)
+      - AWS_S3_KEY=$(basename "$JAR_FILE")
+      - aws s3 cp "$JAR_FILE" "s3://$BUCKET_NAME/$MODULE_NAME/$AWS_S3_KEY"
       - echo Upload to S3 completed on `date`
+      - LAMBDA_S3_KEY="$MODULE_NAME/$AWS_S3_KEY"
+      - aws lambda update-function-code --function-name "$FUNCTION_NAME" --s3-bucket "$BUCKET_NAME" --s3-key "$LAMBDA_S3_KEY"
+      - echo Lambda function updated on `date`
