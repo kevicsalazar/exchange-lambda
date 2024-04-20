@@ -14,8 +14,8 @@ phases:
     commands:
       - echo Build completed on `date`
 
-  artifacts:
-    files:
-      - '*-all.jar'
-    base-directory: "handlers/${MODULE_NAME}/build/libs"
+artifacts:
+  files:
+    - '*-all.jar'
+  base-directory: "handlers/${MODULE_NAME}/build/libs"
 
