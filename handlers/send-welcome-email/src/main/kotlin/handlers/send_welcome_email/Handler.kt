@@ -13,6 +13,7 @@ class Handler : RequestHandler<SQSEvent, Unit> {
 
     override fun handleRequest(input: SQSEvent, context: Context) {
         input.records.forEach {
+            println("handlers.send_welcome_email: ${it.body}")
             processPayload(json.decodeFromString(it.body))
         }
     }

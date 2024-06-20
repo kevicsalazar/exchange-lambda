@@ -14,7 +14,7 @@ class Handler : RequestHandler<SQSEvent, Unit> {
 
     override fun handleRequest(input: SQSEvent, context: Context) {
         input.records.forEach {
-            println("SAVE USER HANDLER 3: ${it.body}")
+            println("handlers.save_user_info: ${it.body}")
             processPayload(json.decodeFromString(it.body))
         }
     }
