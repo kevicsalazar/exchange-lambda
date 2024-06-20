@@ -20,4 +20,3 @@ phases:
       - LAMBDA_S3_KEY="$MODULE_NAME/$AWS_S3_KEY"
       - aws lambda update-function-code --function-name "$FUNCTION_NAME" --s3-bucket "$BUCKET_NAME" --s3-key "$LAMBDA_S3_KEY"
       - echo Lambda function updated on `date`
-

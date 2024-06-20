@@ -7,6 +7,7 @@ import dev.kevinsalazar.exchange.lambda.core.di.coreModule
 import dev.kevinsalazar.exchange.lambda.core.domain.entities.User
 import dev.kevinsalazar.exchange.lambda.core.domain.utils.formatAmount
 import dev.kevinsalazar.exchange.lambda.core.domain.utils.json
+import dev.kevinsalazar.exchange.lambda.core.domain.values.EventBridgeEvent
 
 class Handler : RequestHandler<SQSEvent, Unit> {
 
@@ -19,11 +20,11 @@ class Handler : RequestHandler<SQSEvent, Unit> {
         }
     }
 
-    private fun processPayload(payload: Payload) {
+    private fun processPayload(event: EventBridgeEvent<Payload>) {
 
-        val (sentAmount, receivedAmount) = getAmounts(payload)
+        val (sentAmount, receivedAmount) = getAmounts(event.detail)
 
-        val user = getUserInfo(payload.userId)
+        val user = getUserInfo(event.detail.userId)
 
         val template = "Swap"
         val data = hashMapOf(

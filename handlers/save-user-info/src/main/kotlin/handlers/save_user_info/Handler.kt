@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent
 import dev.kevinsalazar.exchange.lambda.core.di.coreModule
 import dev.kevinsalazar.exchange.lambda.core.domain.entities.User
 import dev.kevinsalazar.exchange.lambda.core.domain.utils.json
+import dev.kevinsalazar.exchange.lambda.core.domain.values.EventBridgeEvent
 
 class Handler : RequestHandler<SQSEvent, Unit> {
 
@@ -13,17 +14,16 @@ class Handler : RequestHandler<SQSEvent, Unit> {
 
     override fun handleRequest(input: SQSEvent, context: Context) {
         input.records.forEach {
-            val eventBridgeEvent = json.decodeFromString<EventBridgeEvent>(it.body)
-            println("SAVE USER HANDLER 2: ${it.body}")
-            processPayload(eventBridgeEvent.detail)
+            println("SAVE USER HANDLER 3: ${it.body}")
+            processPayload(json.decodeFromString(it.body))
         }
     }
 
-    private fun processPayload(payload: Payload) {
+    private fun processPayload(event: EventBridgeEvent<Payload>) {
         val user = User(
-            id = payload.userId,
-            name = payload.name,
-            email = payload.email
+            id = event.detail.userId,
+            name = event.detail.name,
+            email = event.detail.email
         )
         userRepository.save(user)
     }
