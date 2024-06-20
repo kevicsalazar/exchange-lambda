@@ -14,7 +14,7 @@ class Handler : RequestHandler<SQSEvent, Unit> {
     override fun handleRequest(input: SQSEvent, context: Context) {
         input.records.forEach {
             val eventBridgeEvent = json.decodeFromString<EventBridgeEvent>(it.body)
-            println("SAVE USER HANDLER: ${it.body}")
+            println("SAVE USER HANDLER 2: ${it.body}")
             processPayload(eventBridgeEvent.detail)
         }
     }
