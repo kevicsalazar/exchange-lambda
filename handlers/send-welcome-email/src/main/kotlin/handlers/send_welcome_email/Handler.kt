@@ -21,8 +21,8 @@ class Handler : RequestHandler<SQSEvent, Unit> {
     private fun processPayload(event: EventBridgeEvent<Payload>) {
         val template = "Welcome"
         val data = hashMapOf(
-            "name" to event.detail.userName
+            "name" to event.detail.name
         )
-        emailManager.sendTemplatedEmail(template, event.detail.userEmail, data)
+        emailManager.sendTemplatedEmail(template, event.detail.email, data)
     }
 }
