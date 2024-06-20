@@ -8,3 +8,11 @@ data class Payload(
     val name: String,
     val email: String
 )
+
+@Serializable
+data class EventBridgeEvent(
+    val detail: Payload,
+    val source: String,
+    val time: String,
+    val id: String
+)
