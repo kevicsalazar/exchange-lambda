@@ -12,8 +12,8 @@ class Handler : RequestHandler<SQSEvent, Unit> {
     private val userRepository by lazy { coreModule.userRepository }
 
     override fun handleRequest(input: SQSEvent, context: Context) {
-        println("Hello Lambda!")
         input.records.forEach {
+            println("SAVE USER HANDLER: ${it.body}")
             processPayload(json.decodeFromString(it.body))
         }
     }
